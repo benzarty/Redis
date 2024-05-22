@@ -13,12 +13,13 @@ import com.bezkoder.spring.redis.model.Tutorial;
 import com.bezkoder.spring.redis.repository.TutorialRepository;
 
 @Service
-@EnableCaching
 public class TutorialService {
 
   @Autowired
   TutorialRepository tutorialRepository;
 
+
+  //enable caching behavior for a method and parameterize it with a specific cache name.
   @Cacheable("tutorials")
   public List<Tutorial> findAll() {
     doLongRunningTask();
@@ -44,6 +45,9 @@ public class TutorialService {
     return tutorialRepository.save(tutorial);
   }
 
+
+  //it removes one or more entries from a cache.
+
   @CacheEvict(value = "tutorial", key = "#tutorial.id")
   public Tutorial update(Tutorial tutorial) {
     return tutorialRepository.save(tutorial);
@@ -66,6 +70,8 @@ public class TutorialService {
     return tutorialRepository.findByPublished(isPublished);
   }
 
+
+  //héthé bech testiw biha , awel mara yo9e3ed 3 seconds ba3ed yewali yejib min cache
   private void doLongRunningTask() {
     try {
       Thread.sleep(3000);

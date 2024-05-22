@@ -25,7 +25,7 @@ import com.bezkoder.spring.redis.service.TutorialService;
 @RestController
 @RequestMapping("/api")
 public class TutorialController {
-
+//another-redis-desktop-manager fil cmd
   @Autowired
   TutorialService tutorialService;
 

@@ -3,6 +3,7 @@ package com.bezkoder.spring.redis.config;
 import java.time.Duration;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
@@ -27,22 +28,17 @@ public class RedisConfig {
 
     return new LettuceConnectionFactory(configuration);
   }
-  
-//  @Bean
-//  public RedisCacheManager cacheManager(RedisConnectionFactory connectionFactory) {
-//    return RedisCacheManager.create(connectionFactory);
-//  }
-
   @Bean
   public RedisCacheManager cacheManager() {
     RedisCacheConfiguration cacheConfig = myDefaultCacheConfig(Duration.ofMinutes(10)).disableCachingNullValues();
-
+//sets the default cache expiration time to 10 minutes and disables caching of null values.
     return RedisCacheManager.builder(redisConnectionFactory())
         .cacheDefaults(cacheConfig)
         .withCacheConfiguration("tutorials", myDefaultCacheConfig(Duration.ofMinutes(5)))
         .withCacheConfiguration("tutorial", myDefaultCacheConfig(Duration.ofMinutes(1)))
         .build();
   }
+  //we made 1 default configuration and 2 custom configuration
 
   private RedisCacheConfiguration myDefaultCacheConfig(Duration duration) {
     return RedisCacheConfiguration
